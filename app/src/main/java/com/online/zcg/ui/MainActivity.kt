@@ -49,16 +49,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.uiState.observe(this) { state ->
             when (state) {
                 is UIState.Loading -> {
-                    retryButton.visibility = GONE
                     showLoadingState()
                 }
 
                 is UIState.Success -> {
-                    retryButton.visibility = GONE
                     showSuccessState(state.blocks)
                 }
                 is UIState.Error -> {
-                    retryButton.visibility = VISIBLE
+                    showErrorState(state.message)
                     if (state.message.contains("No internet connection")) {
                         // Show a "No Internet" message
                         Snackbar.make(findViewById(R.id.retryButton), "No internet connection", Snackbar.LENGTH_LONG).show()
@@ -81,18 +79,18 @@ class MainActivity : AppCompatActivity() {
 
     // Show loading state (ProgressBar)
     private fun showLoadingState() {
-        progressBar.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-        errorTextView.visibility = View.GONE
-        retryButton.visibility = View.GONE
+        progressBar.visibility = VISIBLE
+        recyclerView.visibility = GONE
+        errorTextView.visibility = GONE
+        retryButton.visibility = GONE
     }
 
     // Show success state (Data loaded)
     private fun showSuccessState(blocks: List<Block>) {
-        progressBar.visibility = View.GONE
-        recyclerView.visibility = View.VISIBLE
-        errorTextView.visibility = View.GONE
-        retryButton.visibility = View.GONE
+        progressBar.visibility = GONE
+        recyclerView.visibility = VISIBLE
+        errorTextView.visibility = GONE
+        retryButton.visibility = GONE
 
         blockAdapter = BlockAdapter(blocks)
         recyclerView.adapter = blockAdapter
@@ -100,10 +98,10 @@ class MainActivity : AppCompatActivity() {
 
     // Show error state (Error message and retry button)
     private fun showErrorState(message: String) {
-        progressBar.visibility = View.GONE
-        recyclerView.visibility = View.GONE
-        errorTextView.visibility = View.VISIBLE
-        retryButton.visibility = View.VISIBLE
+        progressBar.visibility = GONE
+        recyclerView.visibility = GONE
+        errorTextView.visibility = VISIBLE
+        retryButton.visibility = VISIBLE
 
         errorTextView.text = message
     }
