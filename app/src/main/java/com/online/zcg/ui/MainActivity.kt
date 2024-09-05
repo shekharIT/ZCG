@@ -2,13 +2,17 @@ package com.online.zcg.ui
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.online.zcg.R
 import com.online.zcg.model.Block
 import com.online.zcg.ui.adapter.BlockAdapter
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var errorTextView: TextView
     private lateinit var retryButton: Button
+    private lateinit var layout: CoordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +49,23 @@ class MainActivity : AppCompatActivity() {
         viewModel.uiState.observe(this) { state ->
             when (state) {
                 is UIState.Loading -> {
+                    retryButton.visibility = GONE
                     showLoadingState()
                 }
 
                 is UIState.Success -> {
+                    retryButton.visibility = GONE
                     showSuccessState(state.blocks)
                 }
-
                 is UIState.Error -> {
-                    showErrorState(state.message)
+                    retryButton.visibility = VISIBLE
+                    if (state.message.contains("No internet connection")) {
+                        // Show a "No Internet" message
+                        Snackbar.make(findViewById(R.id.retryButton), "No internet connection", Snackbar.LENGTH_LONG).show()
+                    } else {
+                        // Show other error messages
+                        Snackbar.make(findViewById(R.id.retryButton), state.message, Snackbar.LENGTH_LONG).show()
+                    }
                 }
             }
         }
