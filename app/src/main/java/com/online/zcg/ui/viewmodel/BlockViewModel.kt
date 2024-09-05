@@ -41,33 +41,3 @@ class BlockViewModel @Inject constructor(
         }
     }
 }
-
-/*
-@HiltViewModel
-class BlockViewModel @Inject constructor(
-    private val repository: BlockRepository
-) : ViewModel() {
-
-    private val _uiState = MutableLiveData<UIState>()
-    val uiState: LiveData<UIState> = _uiState
-
-    fun fetchBlocks() {
-        _uiState.postValue(UIState.Loading)
-
-        // Check if the network is available
-        if (!networkUtils.isNetworkAvailable()) {
-            _uiState.postValue(UIState.Error("No internet connection"))
-            return
-        }
-
-        viewModelScope.launch {
-                repository.getBlocks().catch {
-                    e -> Log.e("BlockViewModel_ERROR", "getBlocks: ${e.message}")
-                    _uiState.value = UIState.Error("getBlocks: ${e.message}")
-                }.collect { response ->
-                    _uiState.value = UIState.Success(response)
-
-                }
-        }
-    }
-}*/

@@ -8,10 +8,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-/*class BlockRepository  @Inject constructor(private val apiService: ApiService) {
-    suspend fun getBlocks() = apiService.getBlocks()
-}*/
-
 class BlockRepository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun getBlocks(): Flow<List<Block>> = flow {
