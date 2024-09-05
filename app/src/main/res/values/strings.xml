@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ZCG</string>
+    <string name="banner_image">Banner</string>
+    <string name="right_banner_image">Right Banner</string>
+    <string name="left_banner_image">Left Banner</string>
+    <string name="product_image">Product</string>
+</resources>
