@@ -17,6 +17,10 @@ import com.online.zcg.R
 import com.online.zcg.model.Block
 import com.online.zcg.ui.adapter.BlockAdapter
 import com.online.zcg.ui.viewmodel.BlockViewModel
+import com.online.zcg.utils.asButtonHideShow
+import com.online.zcg.utils.asProgressBarHideShow
+import com.online.zcg.utils.asRecyclerViewHideShow
+import com.online.zcg.utils.asTextHideShow
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -79,18 +83,18 @@ class MainActivity : AppCompatActivity() {
 
     // Show loading state (ProgressBar)
     private fun showLoadingState() {
-        progressBar.visibility = VISIBLE
-        recyclerView.visibility = GONE
-        errorTextView.visibility = GONE
-        retryButton.visibility = GONE
+        progressBar.asProgressBarHideShow(progressBar, true)
+        recyclerView.asRecyclerViewHideShow(recyclerView, false)
+        errorTextView.asTextHideShow(errorTextView, false)
+        retryButton.asButtonHideShow(retryButton, false)
     }
 
     // Show success state (Data loaded)
     private fun showSuccessState(blocks: List<Block>) {
-        progressBar.visibility = GONE
-        recyclerView.visibility = VISIBLE
-        errorTextView.visibility = GONE
-        retryButton.visibility = GONE
+        progressBar.asProgressBarHideShow(progressBar, false)
+        recyclerView.asRecyclerViewHideShow(recyclerView, true)
+        errorTextView.asTextHideShow(errorTextView, false)
+        retryButton.asButtonHideShow(retryButton, false)
 
         blockAdapter = BlockAdapter(blocks)
         recyclerView.adapter = blockAdapter
@@ -98,10 +102,10 @@ class MainActivity : AppCompatActivity() {
 
     // Show error state (Error message and retry button)
     private fun showErrorState(message: String) {
-        progressBar.visibility = GONE
-        recyclerView.visibility = GONE
-        errorTextView.visibility = VISIBLE
-        retryButton.visibility = VISIBLE
+        progressBar.asProgressBarHideShow(progressBar, false)
+        recyclerView.asRecyclerViewHideShow(recyclerView, false)
+        errorTextView.asTextHideShow(errorTextView, true)
+        retryButton.asButtonHideShow(retryButton, true)
 
         errorTextView.text = message
     }
